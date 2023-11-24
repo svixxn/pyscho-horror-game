@@ -21,7 +21,7 @@ public class ShowInfo : MonoBehaviour
         {
             canShowInfo = true;
             textElement.enabled = true;
-            textElement.text = "Press E to show info";
+            textElement.text = "Натисніть на E, щоб отримати інформацію";
         }
     }
 
