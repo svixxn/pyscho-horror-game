@@ -43,9 +43,4 @@ MonoBehaviour:
     NextMessage: -1
     MessageText: ...
     Clip: {fileID: 0}
-  Choices:
-  - ID: 4
-    Choices:
-    - "\u0414\u0438\u0432\u043D\u0430..."
-    - ...
-    NextMessages: 0500000006000000
+  Choices: []

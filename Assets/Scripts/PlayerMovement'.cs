@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UI;
+using TMPro;
 
-[RequireComponent(typeof(InventoryBehaviour))]
-public class Moving : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float speed = 8f;
     public Animator anim;
@@ -12,13 +11,16 @@ public class Moving : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb;
 
-    [SerializeField] private UIInventory _uiInventory;
+    private DamageOverDistance damageScript;
 
-    private InventoryBehaviour _inventory;
+    public PsycheBar psycheBar; // Посилання на скрипт полоси здоров'я
 
     private void Start()
     {
-        _inventory = GetComponent<InventoryBehaviour>();
+        //psycheBar.SetMaxPsyche(maxPsyche);
+        //psycheBar.SetPsyche(currentPsyche);
+        damageScript = GetComponent<DamageOverDistance>();
+        damageScript.SetPsycheBar(psycheBar); // Додайте цей рядок
     }
 
     void Update()
@@ -30,61 +32,13 @@ public class Moving : MonoBehaviour
         anim.SetFloat("Vertical", movement.y);
         anim.SetFloat("Speed", movement.sqrMagnitude);
 
-        var isShowInventory = _uiInventory.gameObject.activeSelf;
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            isShowInventory = !isShowInventory;
-            _uiInventory.gameObject.SetActive(isShowInventory);
-
-            Time.timeScale = isShowInventory ? 0f : 1f;
-            Cursor.visible = isShowInventory;
-            Cursor.lockState = isShowInventory ? CursorLockMode.None : CursorLockMode.Locked;
-
-            if (isShowInventory)
+            if (damageScript != null)
             {
-                _uiInventory.ShowInventory(_inventory);
+                damageScript.ApplyDamage(20); // Виклик методу ApplyDamage з екземпляра DamageOverDistance, який належить PsycheBar
             }
         }
-
-        if (!isShowInventory && Input.GetKeyDown(KeyCode.E))
-        {
-            Vector2 origin = transform.position; // Початкова точка луча - може бути змінена на іншу точку залежно від потреб
-            Vector2 direction = Vector2.zero; // Напрямок - змініть його відповідно до вашої логіки
-
-            RaycastHit2D hit = Physics2D.Raycast(origin, direction);
-
-            if (hit.collider != null)
-            {
-                var pickUpItem = hit.collider.GetComponent<PickUpInventoryItem>();
-                if (pickUpItem != null)
-                {
-                    PickUpItem(pickUpItem);
-                }
-
-                var otherInventory = hit.collider.GetComponent<InventoryBehaviour>();
-                if (otherInventory != null)
-                {
-                    OnLookOtherInventory(otherInventory);
-                }
-            }
-        }
-    }
-
-    private void PickUpItem(PickUpInventoryItem pickUpItem)
-    {
-        _inventory.AddItem(pickUpItem.Id, 1); // Приклад передачі кількості предметів (1)
-        Destroy(pickUpItem.gameObject);
-    }
-
-    private void OnLookOtherInventory(InventoryBehaviour otherInventory)
-    {
-        _uiInventory.gameObject.SetActive(true);
-
-        Time.timeScale = 0f;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
-        _uiInventory.ShowInventory(_inventory, otherInventory);
     }
 
     void FixedUpdate()

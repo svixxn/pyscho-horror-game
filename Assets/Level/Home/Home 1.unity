@@ -1937,6 +1937,7 @@ MonoBehaviour:
   speed: 8
   anim: {fileID: 293668444}
   rb: {fileID: 293668439}
+  psycheBar: {fileID: 0}
 --- !u!70 &293668438
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
