@@ -42,14 +42,12 @@ public class PsycheBar : MonoBehaviour
         float normalizedPsyche = (float)psyche / maxPsyche;
         barImage.fillAmount = normalizedPsyche;
         UpdatePsycheText(); // Оновлення тексту після зміни значення
-        Debug.Log("Поточне здоров'я: " + psyche);
     }
 
     public void TakeDamage(int damage)
     {
         currentPsyche -= damage;
         SetPsyche(currentPsyche);
-        Debug.Log("Отримано урон: " + damage);
     }
 
     private void UpdatePsycheText()

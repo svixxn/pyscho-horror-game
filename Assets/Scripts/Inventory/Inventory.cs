@@ -66,8 +66,18 @@ public class Inventory : MonoBehaviour
     {
         if (items.Contains(itemToRemove))
         {
-            items.Remove(itemToRemove); // Видаляємо предмет зі списку інвентаря
+            items.Remove(itemToRemove); // Видалення предмета зі списку інвентаря
             Debug.Log("Видалено предмет: " + itemToRemove.name);
+
+            // Очистити слот у інтерфейсі, пов'язаний із видаленим предметом
+            foreach (InventorySlot slot in slots)
+            {
+                if (slot.item == itemToRemove)
+                {
+                    slot.ClearSlot(); // Виклик методу очищення слоту
+                    break;
+                }
+            }
         }
         else
         {

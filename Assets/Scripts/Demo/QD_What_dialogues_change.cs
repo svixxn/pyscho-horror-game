@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using UnityEngine.Tilemaps;
 
 namespace QuantumTek.QuantumDialogue.Demo
 {
@@ -28,6 +29,9 @@ namespace QuantumTek.QuantumDialogue.Demo
 
         private bool triggeredOnce = false;
 
+        public GameObject objectToToggleOff; // Посилання на об'єкт, який має бути вимкнений
+        public GameObject objectToToggleOn; // Посилання на об'єкт, який має бути увімкнений
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (!triggeredOnce && collision.CompareTag("Player"))
@@ -48,6 +52,7 @@ namespace QuantumTek.QuantumDialogue.Demo
                 textElement.text = "Натисніть на E, щоб отримати інформацію";
             }
 
+
             // Шлях до файлу
             string filePath = Path.Combine(Application.persistentDataPath, "First_nightmare.txt");
 
@@ -65,6 +70,14 @@ namespace QuantumTek.QuantumDialogue.Demo
                 else if (fileContent.Contains("Exit from the room = 2"))
                 {
                     handler.SetConversation("Meeting with Bob - Dialog 2");
+                }
+                else if (fileContent.Contains("Exit from the room = 3"))
+                {
+                    // Вимикаємо перший об'єкт і увімкнемо другий
+                    if (objectToToggleOff != null)
+                        objectToToggleOff.SetActive(false);
+                    if (objectToToggleOn != null)
+                        objectToToggleOn.SetActive(true);
                 }
                 else
                 {
@@ -222,6 +235,5 @@ namespace QuantumTek.QuantumDialogue.Demo
 
             Next(choice);
         }
-
     }
 }

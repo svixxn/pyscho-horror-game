@@ -140,21 +140,21 @@ public class InventorySlot : MonoBehaviour
     // Очистити слот
     public void ClearSlot()
     {
-        item = null;
+        item = null; // Очищаємо посилання на предмет
         if (icon != null)
         {
-            icon.sprite = null;
-            icon.enabled = false;
+            icon.sprite = null; // Очищаємо зображення предмета
+            icon.enabled = false; // Вимикаємо відображення зображення
         }
 
         if (secondIcon != null)
         {
-            secondIcon.sprite = null;
-            secondIcon.enabled = false;
+            secondIcon.sprite = null; // Очищаємо друге зображення предмета
+            secondIcon.enabled = false; // Вимикаємо відображення другого зображення
         }
 
-        HideButtonsAndDescription(); // Приховати кнопки "Використати" і "Опис" та текстове поле при очищенні слоту
+        HideButtonsAndDescription(); // Приховуємо кнопки "Використати" і "Опис" та текстове поле при очищенні слоту
         isOpen = false; // Слот очищено, тому isOpen повинно бути false
-        descriptionText.text = ""; // Очистимо опис при очищенні слоту
+        descriptionText.text = ""; // Очищаємо опис при очищенні слоту
     }
 }
