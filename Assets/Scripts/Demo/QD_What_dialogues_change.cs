@@ -73,6 +73,10 @@ namespace QuantumTek.QuantumDialogue.Demo
                 }
                 else if (fileContent.Contains("Exit from the room = 3"))
                 {
+                    handler.SetConversation("Meeting with Bob - Dialog 2");
+                }
+                else if (fileContent.Contains("Exit from the room = 4"))
+                {
                     // Вимикаємо перший об'єкт і увімкнемо другий
                     if (objectToToggleOff != null)
                         objectToToggleOff.SetActive(false);
