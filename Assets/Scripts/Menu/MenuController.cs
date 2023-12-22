@@ -11,8 +11,11 @@ public class MainMenuController : MonoBehaviour
     public GameObject saveMenu;
 
     public GameObject soundSettingsMenu;
-    public Slider volumeSlider_1;
-    public Slider volumeSlider_2;
+
+    public Slider volumeSliderMusic;
+    public Slider volumeSliderButtonClick;
+
+    public MenuAudioController menuAudioController;
 
     public GameObject backButton;
 
@@ -22,6 +25,12 @@ public class MainMenuController : MonoBehaviour
     public Button[] continueButtons;
     public Button[] deleteButtons;
 
+    public Sprite continueGameImage; // Зображення для кнопки продовження гри з сейву
+    public Sprite newGameImage; // Зображення для кнопки нової гри
+
+    public Image[] continueButtonImage; // Посилання на Image компонент кнопки продовження гри
+
+
     private void Start()
     {
         mainMenuUI.SetActive(true);
@@ -29,7 +38,21 @@ public class MainMenuController : MonoBehaviour
         backButton.SetActive(false);
         soundSettingsMenu.SetActive(false);
 
+        volumeSliderMusic.onValueChanged.AddListener(delegate { SetVolume_1(volumeSliderMusic.value); });
+        volumeSliderButtonClick.onValueChanged.AddListener(delegate { SetVolume_2(volumeSliderButtonClick.value); });
+
         CheckSaveExists();
+        for (int i = 0; i <= 3; i++)
+        {
+            if (saveExists[i]) // Перевірка наявності сейву у першому слоті (можна змінити на будь-який інший)
+            {
+                continueButtonImage[i].sprite = continueGameImage; // Встановлення зображення для продовження гри
+            }
+            else
+            {
+                continueButtonImage[i].sprite = newGameImage; // Встановлення зображення для нової гри
+            }
+        }
 
         continueButtons = new Button[numberOfSaves];
         deleteButtons = new Button[numberOfSaves];
@@ -46,39 +69,43 @@ public class MainMenuController : MonoBehaviour
             continueButtons[i].onClick.AddListener(() => ContinueOrNewGame(saveSlotNumber));
             deleteButtons[i].onClick.AddListener(() => DeleteSave(saveSlotNumber));
 
-            // Зміна кольору та активності кнопки "Продовжити" в залежності від наявності сейву
-            if (!saveExists[i])
-            {
-                // Отримання поточних кольорів кнопки
-                ColorBlock colors = continueButtons[i].colors;
+            //// Зміна кольору та активності кнопки "Продовжити" в залежності від наявності сейву
+            //if (!saveExists[i])
+            //{
+            //    // Отримання поточних кольорів кнопки
+            //    ColorBlock colors = continueButtons[i].colors;
 
-                // Зміна кольорів для різних станів кнопки
-                colors.normalColor = Color.red;
-                colors.highlightedColor = Color.red; // Опціонально: колір при наведенні курсору
-                colors.pressedColor = Color.red; // Опціонально: колір при натисканні
-                colors.disabledColor = Color.red; // Опціонально: колір, коли кнопка неактивна
+            //    // Зміна кольорів для різних станів кнопки
+            //    colors.normalColor = Color.red;
+            //    colors.highlightedColor = Color.red; // Опціонально: колір при наведенні курсору
+            //    colors.pressedColor = Color.red; // Опціонально: колір при натисканні
+            //    colors.disabledColor = Color.red; // Опціонально: колір, коли кнопка неактивна
 
-                // Застосування нового блоку кольорів до кнопки
-                continueButtons[i].colors = colors;
+            //    // Застосування нового блоку кольорів до кнопки
+            //    continueButtons[i].colors = colors;
 
-                // Зробити кнопку неактивною
-                continueButtons[i].interactable = false;
-            }
+            //    // Зробити кнопку неактивною
+            //    continueButtons[i].interactable = false;
+            //}
         }
     }
 
     public void OpenSoundSettings()
     {
-        mainMenuUI.SetActive(false);
         soundSettingsMenu.SetActive(true);
         backButton.SetActive(true);
-        volumeSlider_1.value = AudioListener.volume; // Встановлюємо значення слайдера гучності з поточного звуку
-        volumeSlider_2.value = AudioListener.volume; // Встановлюємо значення слайдера гучності з поточного звуку
+        volumeSliderMusic.value = AudioListener.volume;
+        volumeSliderButtonClick.value = AudioListener.volume;
     }
 
-    public void SetVolume(float volume)
+    public void SetVolume_1(float volume)
     {
-        AudioListener.volume = volume; // Встановлення гучності за значенням слайдера
+        AudioListener.volume = volume; // Встановлення гучності за значенням слайдера 1
+    }
+
+    public void SetVolume_2(float volume)
+    {
+        menuAudioController.SetButtonClickVolume(volume);
     }
 
 
@@ -106,7 +133,6 @@ public class MainMenuController : MonoBehaviour
 
     public void StartGame()
     {
-        mainMenuUI.SetActive(false);
         saveMenu.SetActive(true);
         backButton.SetActive(true);
     }
@@ -114,15 +140,26 @@ public class MainMenuController : MonoBehaviour
     public void BackToMainMenu()
     {
         soundSettingsMenu.SetActive(false);
-        mainMenuUI.SetActive(true);
         saveMenu.SetActive(false);
         backButton.SetActive(false); // Ховаємо кнопку "Назад"
     }
 
     public void DeleteSave(int saveSlot)
     {
-        Debug.Log("Сейв " + saveSlot + " було видалено.");
-        // Додайте код для видалення сейва
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "save_" + (saveSlot - 1) + ".txt");
+
+        if (File.Exists(saveFilePath))
+        {
+            File.Delete(saveFilePath); // Видалення файлу сейва
+            Debug.Log("Сейв " + saveSlot + " було видалено.");
+            saveExists[saveSlot - 1] = false; // Змінити прапорець на false, щоб відобразити відсутність сейва
+            continueButtonImage[saveSlot - 1].sprite = newGameImage; // Змінити зображення кнопки на нову гру
+            continueButtons[saveSlot - 1].interactable = false; // Зробити кнопку неактивною
+        }
+        else
+        {
+            Debug.LogError("Файл сейва не знайдено.");
+        }
     }
 
     public void ContinueOrNewGame(int saveSlot)
@@ -138,8 +175,27 @@ public class MainMenuController : MonoBehaviour
         {
             Debug.Log("Початок нової гри, бо сейв " + saveSlot + " відсутній.");
             // Код для початку нової гри
-            SceneManager.LoadScene(1);
+
+            // Створення нового сейва зі стандартними даними
+            CreateNewSave(saveSlot);
         }
+    }
+
+    private void CreateNewSave(int saveSlot)
+    {
+        SaveData newSaveData = new SaveData
+        {
+            playerPosition = Vector3.zero, // Початкова позиція гравця (0, 0, 0)
+            playerScore = 0 // Початковий рахунок гравця
+        };
+
+        string json = JsonUtility.ToJson(newSaveData);
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "save_" + (saveSlot - 1) + ".txt");
+
+        File.WriteAllText(saveFilePath, json); // Записати дані у файл сейва
+
+        Debug.Log("Створено новий сейв " + saveSlot);
+        SceneManager.LoadScene(1);
     }
 
     [System.Serializable]

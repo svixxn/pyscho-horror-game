@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level/Nightmare/Holes/Nightmare_1.unity
     guid: dc785075ecfd9674ba633b1cbbd50f74
-  - enabled: 1
+  - enabled: 0
     path: Assets/DDSystem/Demo/Demo.unity
     guid: 2ee905b7a480ead4caaece7733a17acf
   m_configObjects: {}

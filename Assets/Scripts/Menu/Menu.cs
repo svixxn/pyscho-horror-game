@@ -47,8 +47,8 @@ public class Menu : MonoBehaviour
     private void OpenMainMenu()
     {
         isMainMenuActive = true;
-        //previousTimeScale = Time.timeScale;
-        //Time.timeScale = 0f;
+        Cursor.visible = true; // Зробити мишу видимою
+        //Time.timeScale = 0f; // При затримці відображення меню, зупинити час гри
         mainMenuUI.SetActive(true);
         soundSettingsMenu.SetActive(false);
         backButton.SetActive(false);
@@ -57,7 +57,8 @@ public class Menu : MonoBehaviour
     private void CloseMenus()
     {
         isMainMenuActive = false;
-        //Time.timeScale = previousTimeScale;
+        Cursor.visible = false; // Зробити мишу невидимою
+        //Time.timeScale = 1f; // Відновити час гри
         mainMenuUI.SetActive(false);
         soundSettingsMenu.SetActive(false);
         backButton.SetActive(false);
