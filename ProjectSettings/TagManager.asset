@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Ghost
   - Killable
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Character
   - Water
   - UI
   - visionMask
