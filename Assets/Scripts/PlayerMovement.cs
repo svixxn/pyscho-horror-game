@@ -18,11 +18,11 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
 
-        // ќтримати позиц≥ю гравц€ з GameData
-        Vector3 playerPosition = GameData.playerPosition;
+        //// ќтримати позиц≥ю гравц€ з GameData
+        //Vector3 playerPosition = GameData.playerPosition;
 
-        // ¬становити позиц≥ю гравц€ на основ≥ отриманих даних
-        transform.position = playerPosition;
+        //// ¬становити позиц≥ю гравц€ на основ≥ отриманих даних
+        //transform.position = playerPosition;
 
         //psycheBar.SetMaxPsyche(maxPsyche);
         //psycheBar.SetPsyche(currentPsyche);

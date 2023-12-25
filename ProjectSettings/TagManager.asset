@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ghost
   - Killable
+  - Col
   layers:
   - Default
   - TransparentFX
