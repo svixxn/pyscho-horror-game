@@ -5,20 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class MoveBetweenPoints : MonoBehaviour
 {
-    public Transform[] waypoints; // Точки, між якими буде рухатися об'єкт
-    public float moveSpeed = 3f; // Швидкість руху об'єкта
-    private int currentWaypointIndex = 0; // Поточний індекс точки, до якої рухається об'єкт
+    [System.Serializable]
+    public struct WaypointRotation
+    {
+        public Transform waypoint;
+        public float rotationAngle;
+    }
+
+    public WaypointRotation[] waypointRotations;
+    public float moveSpeed = 3f;
+    private int currentWaypointIndex = 0;
+    private Transform currentWaypoint;
 
     void Start()
     {
-        if (waypoints.Length == 0)
+        if (waypointRotations.Length == 0)
         {
             Debug.LogWarning("Не вказані точки для руху об'єкта!");
             return;
         }
 
-        // Починаємо рухатися до першої точки при старті
-        transform.position = waypoints[currentWaypointIndex].position;
+        currentWaypoint = waypointRotations[currentWaypointIndex].waypoint;
+        transform.position = currentWaypoint.position;
         StartCoroutine(MoveToNextWaypoint());
     }
 
@@ -26,24 +34,27 @@ public class MoveBetweenPoints : MonoBehaviour
     {
         while (true)
         {
-            // Рухаємося до поточної точки
-            transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, moveSpeed * Time.deltaTime);
 
-            // Перевіряємо, чи досягли поточної точки
-            if (Vector3.Distance(transform.position, waypoints[currentWaypointIndex].position) < 0.001f) // Змінена умова на більш гнучку
+            if (Vector3.Distance(transform.position, currentWaypoint.position) < 0.001f)
             {
-                // Збільшуємо індекс точки або повертаємось до першої точки, якщо досягнута остання
-                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+                currentWaypointIndex = (currentWaypointIndex + 1) % waypointRotations.Length;
+                currentWaypoint = waypointRotations[currentWaypointIndex].waypoint;
+                ChangeOrientation(waypointRotations[currentWaypointIndex].rotationAngle);
             }
 
             yield return null;
         }
     }
 
-    // Логіка для перевірки колізії з гравцем (для 2D колайдерів)
+    void ChangeOrientation(float rotationAngle)
+    {
+        transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player")) // Перевіряємо, чи це колізія з гравцем за тегом "Player"
+        if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Гравець зіткнувся з об'єктом. Перезавантаження рівня...");
             SceneManager.LoadScene(2);

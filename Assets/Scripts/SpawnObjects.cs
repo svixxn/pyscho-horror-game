@@ -45,21 +45,18 @@ public class SpawnObjects : MonoBehaviour
         while (true)
         {
             float delay = Random.Range(spawnDelayMin, spawnDelayMax);
-            Debug.Log("Before WaitForSeconds: " + delay);
 
             yield return new WaitForSeconds(delay);
 
             try
             {
                 Vector2 randomPosition = GetRandomPositionInsideSpawnArea();
-                Debug.Log("Random Position: " + randomPosition);
 
                 Collider2D overlap = Physics2D.OverlapCircle(randomPosition, 0.1f, disallowedLayers);
 
                 if (overlap == null && CheckMinimumDistance(randomPosition))
                 {
                     Instantiate(objectToSpawn, new Vector3(randomPosition.x, randomPosition.y, 0f), Quaternion.identity);
-                    Debug.Log("After Instantiate");
                 }
             }
             catch (System.Exception e)
@@ -90,7 +87,6 @@ public class SpawnObjects : MonoBehaviour
 
         foreach (GameObject obj in spawnedObjects)
         {
-            Debug.Log("2");
             if (Vector2.Distance(position, obj.transform.position) < minDistanceBetweenObjects)
             {
                 return false;
