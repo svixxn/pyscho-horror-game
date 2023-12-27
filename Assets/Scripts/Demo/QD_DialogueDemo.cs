@@ -12,7 +12,7 @@ namespace QuantumTek.QuantumDialogue.Demo
         public TextMeshProUGUI messageText;
         public Transform choices;
         public TextMeshProUGUI choiceTemplate;
-        public Image dialogueImage; // Доданий об'єкт зображення
+        public Image dialogueImage;
 
         private List<TextMeshProUGUI> activeChoices = new List<TextMeshProUGUI>();
         private List<TextMeshProUGUI> inactiveChoices = new List<TextMeshProUGUI>();
@@ -46,16 +46,12 @@ namespace QuantumTek.QuantumDialogue.Demo
         }
         private void Update()
         {
-            // Don't do anything if the conversation is over
             if (ended)
                 return;
 
-            // Check if the space key is pressed and the current message is not a choice
-            //if (handler.currentMessageInfo.Type == QD_NodeType.Message && Input.GetKeyUp(KeyCode.Space))
             if (handler.currentMessageInfo.Type == QD_NodeType.Message && Input.GetKeyUp(KeyCode.Space))
             {
                 Next();
-                // При кінці діалогу ховаємо зображення
                 if (ended)
                     HideImage();
             }
@@ -64,7 +60,6 @@ namespace QuantumTek.QuantumDialogue.Demo
         {
             for (int i = activeChoices.Count - 1; i >= 0; --i)
             {
-                // Use object pooling with the choices to prevent unecessary garbage collection
                 activeChoices[i].gameObject.SetActive(false);
                 activeChoices[i].text = "";
                 inactiveChoices.Add(activeChoices[i]);

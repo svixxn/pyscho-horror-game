@@ -9,8 +9,8 @@ public class ManagerText : MonoBehaviour
     public GameObject dialoguePanel;
     public Image characterImage;
     public TextMeshProUGUI dialogueText;
-    public string[] dialogues; // Масив текстів діалогів
-    public Sprite[] characterSprites; // Масив зображень обличчя персонажів
+    public string[] dialogues; 
+    public Sprite[] characterSprites;
     private int currentDialogueIndex = 0;
     private bool dialogueActive = false;
     private bool inRange = false;
@@ -39,10 +39,9 @@ public class ManagerText : MonoBehaviour
 
     void StartDialogue()
     {
-        Debug.Log("Start");
         dialoguePanel.SetActive(true);
         dialogueActive = true;
-        Time.timeScale = 0f; // Зупинити час
+        Time.timeScale = 0f;
         DisplayNextDialogue();
     }
 
@@ -58,7 +57,7 @@ public class ManagerText : MonoBehaviour
         {
             dialogueActive = false;
             dialoguePanel.SetActive(false);
-            Time.timeScale = 1f; // Повернути час до звичайного після закінчення діалогу
+            Time.timeScale = 1f;
         }
     }
 }

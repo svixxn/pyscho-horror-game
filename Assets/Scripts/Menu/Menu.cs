@@ -47,8 +47,8 @@ public class Menu : MonoBehaviour
     private void OpenMainMenu()
     {
         isMainMenuActive = true;
-        Cursor.visible = true; // Зробити мишу видимою
-        //Time.timeScale = 0f; // При затримці відображення меню, зупинити час гри
+        Cursor.visible = true; 
+        //Time.timeScale = 0f; 
         mainMenuUI.SetActive(true);
         soundSettingsMenu.SetActive(false);
         backButton.SetActive(false);
@@ -57,8 +57,8 @@ public class Menu : MonoBehaviour
     private void CloseMenus()
     {
         isMainMenuActive = false;
-        Cursor.visible = false; // Зробити мишу невидимою
-        //Time.timeScale = 1f; // Відновити час гри
+        Cursor.visible = false;
+        //Time.timeScale = 1f; 
         mainMenuUI.SetActive(false);
         soundSettingsMenu.SetActive(false);
         backButton.SetActive(false);
@@ -76,7 +76,6 @@ public class Menu : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Гра була закрита.");
         Application.Quit();
     }
 

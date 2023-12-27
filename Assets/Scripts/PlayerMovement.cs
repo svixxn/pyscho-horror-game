@@ -11,9 +11,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb;
 
-    private DamageOverDistance damageScript;
+    //private DamageOverDistance damageScript;
 
-    public PsycheBar psycheBar; // Посилання на скрипт полоси здоров'я
+    //public PsycheBar psycheBar; // Посилання на скрипт полоси здоров'я
 
     private void Start()
     {
@@ -26,8 +26,8 @@ public class PlayerMovement : MonoBehaviour
 
         //psycheBar.SetMaxPsyche(maxPsyche);
         //psycheBar.SetPsyche(currentPsyche);
-        damageScript = GetComponent<DamageOverDistance>();
-        damageScript.SetPsycheBar(psycheBar); // Додайте цей рядок
+        //damageScript = GetComponent<DamageOverDistance>();
+        //damageScript.SetPsycheBar(psycheBar); // Додайте цей рядок
     }
 
     void Update()
@@ -39,13 +39,13 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("Vertical", movement.y);
         anim.SetFloat("Speed", movement.sqrMagnitude);
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (damageScript != null)
-            {
-                damageScript.ApplyDamage(20); // Виклик методу ApplyDamage з екземпляра DamageOverDistance, який належить PsycheBar
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    if (damageScript != null)
+        //    {
+        //        damageScript.ApplyDamage(20); // Виклик методу ApplyDamage з екземпляра DamageOverDistance, який належить PsycheBar
+        //    }
+        //}
     }
 
     void FixedUpdate()

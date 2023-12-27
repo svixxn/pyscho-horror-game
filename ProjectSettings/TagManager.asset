@@ -4,17 +4,18 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ghost
   - Killable
+  - Enemy
   - Col
+  - Small
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - visionMask
+  - NoSpawn
   - 
   - 
   - 

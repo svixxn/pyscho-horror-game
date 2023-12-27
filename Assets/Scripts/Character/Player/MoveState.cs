@@ -1,4 +1,3 @@
-// MoveState.cs
 using UnityEngine;
 
 public class MoveState : PlayerState

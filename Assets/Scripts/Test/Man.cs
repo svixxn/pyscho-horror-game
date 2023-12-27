@@ -9,8 +9,8 @@ public class Man : MonoBehaviour
     public GameObject dialoguePanel;
     public Image characterImage;
     public TextMeshProUGUI dialogueText;
-    public string[] dialogues; // Масив текстів діалогів
-    public Sprite[] characterSprites; // Масив зображень обличчя персонажів
+    public string[] dialogues; 
+    public Sprite[] characterSprites;
     private int currentDialogueIndex = 0;
     private bool dialogueActive = false;
 
@@ -28,29 +28,26 @@ public class Man : MonoBehaviour
     {
         if (dialogueActive && Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Space key pressed.");
             DisplayNextDialogue();
         }
 
         if (currentDialogueIndex >= dialogues.Length)
         {
             dialoguePanel.SetActive(false);
-            Time.timeScale = 1f; // Повернути час до звичайного
+            Time.timeScale = 1f;
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Entered dialogue collider.");
         StartDialogue();
     }
 
     void StartDialogue()
     {
-        Debug.Log("Starting dialogue.");
         dialoguePanel.SetActive(true);
         dialogueActive = true;
-        Time.timeScale = 0f; // Зупинити час
+        Time.timeScale = 0f; 
         DisplayNextDialogue();
     }
 
@@ -70,7 +67,7 @@ public class Man : MonoBehaviour
             DeactivateObjects(objectsToDeactivate);
             ActivateSprites(spritesToActivate);
             DeactivateSprites(spritesToDeactivate);
-            Time.timeScale = 1f; // Повернути час до звичайного, якщо діалоги закінчилися
+            Time.timeScale = 1f;
         }
     }
 
@@ -78,7 +75,7 @@ public class Man : MonoBehaviour
     {
         foreach (GameObject obj in objects)
         {
-            obj.SetActive(true); // Активувати об'єкт
+            obj.SetActive(true);
         }
     }
 
@@ -86,7 +83,7 @@ public class Man : MonoBehaviour
     {
         foreach (GameObject obj in objects)
         {
-            obj.gameObject.SetActive(false); // Вимкнути об'єкт
+            obj.gameObject.SetActive(false); 
         }
     }
 
@@ -94,7 +91,7 @@ public class Man : MonoBehaviour
     {
         foreach (SpriteRenderer spriteRenderer in sprites)
         {
-            spriteRenderer.enabled = true; // Активувати спрайт
+            spriteRenderer.enabled = true; 
         }
     }
 
@@ -102,7 +99,7 @@ public class Man : MonoBehaviour
     {
         foreach (SpriteRenderer spriteRenderer in sprites)
         {
-            spriteRenderer.enabled = false; // Вимкнути спрайт
+            spriteRenderer.enabled = false; 
         }
     }
 }
